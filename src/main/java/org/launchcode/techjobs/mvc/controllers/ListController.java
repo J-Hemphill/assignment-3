@@ -22,6 +22,7 @@ public class ListController {
     static HashMap<String, String> columnChoices = new HashMap<>();
     static HashMap<String, Object> tableChoices = new HashMap<>();
 
+    // Constructor
     public ListController () {
         columnChoices.put("all", "All");
         columnChoices.put("employer", "Employer");
@@ -29,16 +30,23 @@ public class ListController {
         columnChoices.put("positionType", "Position Type");
         columnChoices.put("coreCompetency", "Skill");
 
+        tableChoices.put("all", "view all");
         tableChoices.put("employer", JobData.getAllEmployers());
         tableChoices.put("location", JobData.getAllLocations());
         tableChoices.put("positionType", JobData.getAllPositionTypes());
         tableChoices.put("coreCompetency", JobData.getAllCoreCompetency());
     }
 
+    // Handler Methods
+
+    // The first method displays a view that shows a table of clickable
+    // links for the different job categories.
+
     @GetMapping(value = "")
     public String list(Model model) {
         model.addAttribute("columns", columnChoices);
         model.addAttribute("tableChoices", tableChoices);
+        model.addAttribute("all", "view all");
         model.addAttribute("employers", JobData.getAllEmployers());
         model.addAttribute("locations", JobData.getAllLocations());
         model.addAttribute("positions", JobData.getAllPositionTypes());
@@ -46,6 +54,11 @@ public class ListController {
 
         return "list";
     }
+
+    // The second method displays a different view that shows
+    // information for the jobs that relate to a selected category.
+
+    // Both of the handlers obtain data by using the JobData class methods.
 
     @GetMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam(required = false) String value) {
